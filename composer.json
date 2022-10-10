@@ -1,0 +1,27 @@
+{
+  "name": "ridwan-hidayat/absen-api",
+  "description": "Rest API for Absen Apps",
+  "type": "project",
+  "authors": [
+    {
+      "name": "Ridwan Hidayat"
+    }
+  ],
+  "require": {
+    "php": ">=8.0",
+    "ext-pdo": "*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "9.5.21"
+  },
+  "autoload": {
+    "psr-4": {
+      "RidwanHidayat\\Absen\\API\\": "app"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "RidwanHidayat\\Absen\\API\\": "test"
+    }
+  }
+}
