@@ -108,4 +108,30 @@ class KaryawanRepositoryTest extends TestCase
 
         self::assertEquals(1, $response);
     }
+
+    public function testUpdateTokenSuccess()
+    {
+        $this->saveKaryawan();
+
+        $karyawan = new Karyawan();
+        $karyawan->nik = '2200000001';
+        $karyawan->token = md5(date('YmdHis'));
+        $karyawan->updatedAt = time();
+        $response = $this->karyawanRepository->updateToken($karyawan);
+
+        self::assertEquals(1, $response);
+    }
+
+    public function testUpdateFacePointSuccess()
+    {
+        $this->saveKaryawan();
+
+        $karyawan = new Karyawan();
+        $karyawan->nik = '2200000001';
+        $karyawan->facePoint = '[-000]';
+        $karyawan->updatedAt = time();
+        $response = $this->karyawanRepository->updateFacePoint($karyawan);
+
+        self::assertEquals(1, $response);
+    }
 }

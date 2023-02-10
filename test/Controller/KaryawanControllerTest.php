@@ -271,4 +271,27 @@ class KaryawanControllerTest extends TestCase
 
         self::assertEquals(200, http_response_code());
     }
+
+    public function testUpdateFacePointSuccess()
+    {
+        $karyawan = new Karyawan();
+        $karyawan->nik = '2200000001';
+        $karyawan->nama = 'Ridwan Hidayat';
+        $karyawan->tanggalLahir = '1993-04-07';
+        $karyawan->jenisKelamin = 'L';
+        $karyawan->tempatLahir = 'Sumedang';
+        $karyawan->noHp = '083141418173';
+        $karyawan->alamat = 'Jl inhofftank';
+        $karyawan->email = 'ridwan.nurulhidayat@gmail.com';
+        $karyawan->divisi = 'IT';
+        $karyawan->jabatan = 'Programmer';
+        $karyawan->createdAt = time();
+        $this->karyawanRepository->save($karyawan);
+
+        $_POST['nik'] = '2200000001';
+        $_POST['token'] = '4377';
+        $this->karyawanController->updateFacePoint();
+
+        self::assertEquals(200, http_response_code());
+    }
 }

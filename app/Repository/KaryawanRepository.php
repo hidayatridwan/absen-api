@@ -44,6 +44,8 @@ class KaryawanRepository
         $karyawan->divisi = $row['divisi'];
         $karyawan->jabatan = $row['jabatan'];
         $karyawan->password = $row['password'];
+        $karyawan->token = $row['token'];
+        $karyawan->facePoint = $row['face_point'];
         $karyawan->aktif = $row['aktif'];
         $karyawan->createdAt = $row['created_at'];
         $karyawan->updatedAt = $row['updated_at'];
@@ -166,6 +168,38 @@ class KaryawanRepository
 
         $statement->execute([
             $karyawan->password,
+            $karyawan->nik
+        ]);
+
+        return $statement->rowCount();
+    }
+
+    public function updateToken(Karyawan $karyawan): int
+    {
+        $statement = $this->connection->prepare("UPDATE `m_karyawan`
+            SET `token` = ?,
+            `updated_at` = unix_timestamp()
+            WHERE `nik` = ?;
+        ");
+
+        $statement->execute([
+            $karyawan->token,
+            $karyawan->nik
+        ]);
+
+        return $statement->rowCount();
+    }
+
+    public function updateFacePoint(Karyawan $karyawan): int
+    {
+        $statement = $this->connection->prepare("UPDATE `m_karyawan`
+            SET `face_point` = ?,
+            `updated_at` = unix_timestamp()
+            WHERE `nik` = ?;
+        ");
+
+        $statement->execute([
+            $karyawan->facePoint,
             $karyawan->nik
         ]);
 

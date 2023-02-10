@@ -15,6 +15,8 @@ class Karyawan
     public ?string $divisi;
     public ?string $jabatan;
     public ?string $password;
+    public ?string $token;
+    public ?string $facePoint;
     public ?string $aktif;
     public ?int $createdAt;
     public ?int $updatedAt;

@@ -18,25 +18,31 @@ class KaryawanService
         $this->karyawanRepository = $karyawanRepository;
     }
 
+    /**
+     * @throws ValidationException
+     */
     private function validationKaryawanRequest(KaryawanRequest $request): void
     {
         if (!isset($request->nik) || !isset($request->nama)) {
-            throw new ValidationException('Parameter salah.');
+            throw new ValidationException('Invalid parameters!');
         } else if ($request->nik == null || trim($request->nik) == '') {
-            throw new ValidationException('NIK jangan kosong.');
+            throw new ValidationException('NIK do not blank!');
         } else if ($request->nama == null || trim($request->nama) == '') {
-            throw new ValidationException('Nama jangan kosong.');
+            throw new ValidationException('Nama do not blank!');
         }
     }
 
+    /**
+     * @throws ValidationException
+     */
     private function validationPasswordRequest(KaryawanRequest $request): void
     {
         if (!isset($request->nik) || !isset($request->password)) {
-            throw new ValidationException('Parameter salah.');
+            throw new ValidationException('Invalid parameters!');
         } else if ($request->nik == null || trim($request->nik) == '') {
-            throw new ValidationException('NIK jangan kosong.');
+            throw new ValidationException('NIK do not blank!');
         } else if ($request->password == null || trim($request->password) == '') {
-            throw new ValidationException('Password jangan kosong.');
+            throw new ValidationException('Password do not blank!');
         }
     }
 
@@ -75,13 +81,16 @@ class KaryawanService
         }
     }
 
+    /**
+     * @throws ValidationException
+     */
     public function save(KaryawanRequest $request): KaryawanResponse
     {
         $this->validationKaryawanRequest($request);
 
         $check = $this->karyawanRepository->findByNIK($request->nik);
         if ($check != null) {
-            throw new ValidationException('NIK sudah tersedia.');
+            throw new ValidationException('NIK already exist!');
         }
 
         $karyawan = $this->appendDomain($request);
@@ -98,13 +107,16 @@ class KaryawanService
         }
     }
 
+    /**
+     * @throws ValidationException
+     */
     public function update(KaryawanRequest $request): KaryawanResponse
     {
         $this->validationKaryawanRequest($request);
 
         $check = $this->karyawanRepository->findByNIK($request->nik);
         if ($check == null) {
-            throw new ValidationException('Karyawan tidak ditemukan.');
+            throw new ValidationException('Karyawan not found!');
         }
 
         $karyawan = $this->appendDomain($request);
@@ -130,13 +142,16 @@ class KaryawanService
         }
     }
 
+    /**
+     * @throws ValidationException
+     */
     public function updatePassword(KaryawanRequest $request): int
     {
         $this->validationPasswordRequest($request);
 
         $check = $this->karyawanRepository->findByNIK($request->nik);
         if ($check == null) {
-            throw new ValidationException('Karyawan tidak ditemukan.');
+            throw new ValidationException('Karyawan not found!');
         }
 
         $karyawan = new Karyawan();
@@ -150,20 +165,41 @@ class KaryawanService
         }
     }
 
+    /**
+     * @throws ValidationException
+     */
     public function login(KaryawanRequest $request): ?KaryawanResponse
     {
         $result = $this->karyawanRepository->findByNIK($request->nik);
 
         if ($result == null) {
-            throw new ValidationException('Username atau Password salah');
+            throw new ValidationException('Invalid Username or Password!');
         }
 
         if (password_verify($request->password, $result->password)) {
             $response = new KaryawanResponse();
             $response->karyawan = $result;
+//            update token
+            $karyawan = new Karyawan();
+            $karyawan->nik = $request->nik;
+            $karyawan->token = md5(date('YmdHis'));
+            $this->karyawanRepository->updateToken($karyawan);
             return $response;
         } else {
-            throw new ValidationException('Username atau Password salah');
+            throw new ValidationException('Invalid Username or Password!');
+        }
+    }
+
+    public function updateFacePoint(KaryawanRequest $request): int
+    {
+        $karyawan = new Karyawan();
+        $karyawan->nik = $request->nik;
+        $karyawan->facePoint = $request->facePoint;
+
+        try {
+            return $this->karyawanRepository->updateFacePoint($karyawan);
+        } catch (Exception $exception) {
+            throw $exception;
         }
     }
 }

@@ -190,4 +190,18 @@ class KaryawanServiceTest extends TestCase
         self::assertNotEquals($request2->password, $response->karyawan->password);
         self::assertTrue(password_verify($request2->password, $response->karyawan->password));
     }
+
+    public function testUpdateFacePointSuccess()
+    {
+        $this->saveKaryawan();
+
+        $request = new KaryawanRequest();
+        $request->nik = '2200000001';
+        $request->facePoint = '[-000]';
+        $request->updatedAt = time();
+
+        $response = $this->karyawanService->updateFacePoint($request);
+
+        self::assertEquals(1, $response);
+    }
 }
