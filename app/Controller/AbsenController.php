@@ -19,7 +19,6 @@ class AbsenController
         $connection = Database::getConnection();
         $absenRepository = new AbsenRepository($connection);
         $this->absenService = new AbsenService($absenRepository);
-        error_reporting(0);
         header('Content-Type: application/json; charset=utf-8');
     }
 

@@ -7,18 +7,21 @@ use RidwanHidayat\Absen\API\Config\Database;
 use RidwanHidayat\Absen\API\Helper\Helper;
 use RidwanHidayat\Absen\API\Model\KaryawanRequest;
 use RidwanHidayat\Absen\API\Repository\KaryawanRepository;
+use RidwanHidayat\Absen\API\Repository\TokenRepository;
 use RidwanHidayat\Absen\API\Service\KaryawanService;
+use RidwanHidayat\Absen\API\Service\TokenService;
 
 class KaryawanController
 {
     private KaryawanService $karyawanService;
+    private TokenService $tokenService;
 
     public function __construct()
     {
         $connection = Database::getConnection();
         $karyawanRepository = new KaryawanRepository($connection);
-        $this->karyawanService = new KaryawanService($karyawanRepository);
-        error_reporting(0);
+        $tokenRepository = new TokenRepository($connection);
+        $this->karyawanService = new KaryawanService($karyawanRepository, $tokenRepository);
         header('Content-Type: application/json; charset=utf-8');
     }
 
@@ -62,7 +65,7 @@ class KaryawanController
             http_response_code(200);
         } else {
             $response = [
-                'message' => 'Data karyawan tidak ditemukan.'
+                'message' => 'Data was not found.'
             ];
             http_response_code(404);
         }
@@ -126,12 +129,12 @@ class KaryawanController
 
         if ($result > 0) {
             $response = [
-                'message' => 'Berhasil dihapus'
+                'message' => 'Successfully deleted'
             ];
             http_response_code(200);
         } else {
             $response = [
-                'error' => 'Gagal dihapus'
+                'error' => 'Failed to delete'
             ];
             http_response_code(400);
         }
@@ -150,7 +153,7 @@ class KaryawanController
         try {
             $this->karyawanService->updatePassword($request);
             $response = [
-                'message' => 'Berhasil di update'
+                'message' => 'Successfully updated'
             ];
             http_response_code(200);
         } catch (Exception $exception) {
@@ -198,7 +201,7 @@ class KaryawanController
         try {
             $this->karyawanService->updateFacePoint($request);
             $response = [
-                'message' => 'Berhasil di update'
+                'message' => 'Successfully updated'
             ];
             http_response_code(200);
         } catch (Exception $exception) {

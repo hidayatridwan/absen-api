@@ -23,9 +23,9 @@ class AbsenRepository
         $data = [];
         foreach ($result as $row) {
             $absen = new Absen();
-            $absen->id = $row['id'];
             $absen->nik = $row['nik'];
-            $absen->jamAbsen = $row['jam_absen'];
+            $absen->jamDatang = $row['jam_datang'];
+            $absen->jamPulang = $row['jam_pulang'];
             $data[] = $absen;
         }
 
@@ -48,9 +48,15 @@ class AbsenRepository
     public function findByNIK(string $nik): array
     {
         try {
-            $statement = $this->connection->prepare("SELECT *
-                FROM `t_absen`
-                WHERE `nik` = ?;
+            $statement = $this->connection->prepare("SELECT 
+                nik,
+                MIN(jam_absen) AS jam_datang,
+                MAX(jam_absen) AS jam_pulang
+            FROM
+                t_absen
+            WHERE `nik` = ?
+            GROUP BY nik,
+            DATE_FORMAT(FROM_UNIXTIME(jam_absen), '%Y-%m-%d');
             ");
 
             $statement->execute([$nik]);

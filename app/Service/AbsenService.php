@@ -22,9 +22,9 @@ class AbsenService
     private function validationAbsenRequest(AbsenRequest $request): void
     {
         if (!isset($request->nik)) {
-            throw new ValidationException('Parameter salah.');
+            throw new ValidationException('Wrong parameters');
         } else if ($request->nik == null or trim($request->nik) == '') {
-            throw new ValidationException('NIK tidak boleh kosong.');
+            throw new ValidationException('NIK do not blank');
         }
     }
 

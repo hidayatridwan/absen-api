@@ -6,13 +6,14 @@ class Router
 {
     private static array $routes = [];
 
-    public static function add(string $method, string $path, string $controller, string $function): void
+    public static function add(string $method, string $path, string $controller, string $function, array $middlewares = []): void
     {
         self::$routes[] = [
             'method' => $method,
             'path' => $path,
             'controller' => $controller,
-            'function' => $function
+            'function' => $function,
+            'middleware' => $middlewares
         ];
     }
 
@@ -31,6 +32,12 @@ class Router
 
             if (preg_match($pattern, $path, $variables) && $method == $route['method']) {
 
+                // call middleware
+                foreach ($route['middleware'] as $middleware) {
+                    $instance = new $middleware;
+                    $instance->before();
+                }
+
                 // call controller
                 $controller = new $route['controller'];
                 $function = $route['function'];
@@ -44,6 +51,6 @@ class Router
 
         http_response_code(404);
         header('Content-Type: application/json; charset=utf-8');
-        echo json_encode(array('message' => 'Halaman tidak ditemukan'));
+        echo json_encode(array('message' => 'Invalid address'));
     }
 }

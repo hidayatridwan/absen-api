@@ -99,6 +99,6 @@ class AbsenControllerTest extends TestCase
         $this->absenController->findAll();
 
         self::assertEquals(200, http_response_code());
-        $this->expectOutputRegex('["id":"]');
+        $this->expectOutputRegex('["nik":"]');
     }
 }

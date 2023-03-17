@@ -8,14 +8,17 @@ use RidwanHidayat\Absen\API\Exception\ValidationException;
 use RidwanHidayat\Absen\API\Model\KaryawanRequest;
 use RidwanHidayat\Absen\API\Model\KaryawanResponse;
 use RidwanHidayat\Absen\API\Repository\KaryawanRepository;
+use RidwanHidayat\Absen\API\Repository\TokenRepository;
 
 class KaryawanService
 {
     private KaryawanRepository $karyawanRepository;
+    private TokenRepository $tokenRepository;
 
-    public function __construct(KaryawanRepository $karyawanRepository)
+    public function __construct(KaryawanRepository $karyawanRepository, TokenRepository $tokenRepository)
     {
         $this->karyawanRepository = $karyawanRepository;
+        $this->tokenRepository = $tokenRepository;
     }
 
     /**
@@ -24,11 +27,11 @@ class KaryawanService
     private function validationKaryawanRequest(KaryawanRequest $request): void
     {
         if (!isset($request->nik) || !isset($request->nama)) {
-            throw new ValidationException('Invalid parameters!');
+            throw new ValidationException('Invalid parameters');
         } else if ($request->nik == null || trim($request->nik) == '') {
-            throw new ValidationException('NIK do not blank!');
+            throw new ValidationException('NIK do not blank');
         } else if ($request->nama == null || trim($request->nama) == '') {
-            throw new ValidationException('Nama do not blank!');
+            throw new ValidationException('Nama do not blank');
         }
     }
 
@@ -38,11 +41,11 @@ class KaryawanService
     private function validationPasswordRequest(KaryawanRequest $request): void
     {
         if (!isset($request->nik) || !isset($request->password)) {
-            throw new ValidationException('Invalid parameters!');
+            throw new ValidationException('Invalid parameters');
         } else if ($request->nik == null || trim($request->nik) == '') {
-            throw new ValidationException('NIK do not blank!');
+            throw new ValidationException('NIK do not blank');
         } else if ($request->password == null || trim($request->password) == '') {
-            throw new ValidationException('Password do not blank!');
+            throw new ValidationException('Password do not blank');
         }
     }
 
@@ -63,6 +66,9 @@ class KaryawanService
         return $karyawan;
     }
 
+    /**
+     * @throws Exception
+     */
     public function findAll(): array
     {
         try {
@@ -116,7 +122,7 @@ class KaryawanService
 
         $check = $this->karyawanRepository->findByNIK($request->nik);
         if ($check == null) {
-            throw new ValidationException('Karyawan not found!');
+            throw new ValidationException('NIK not found!');
         }
 
         $karyawan = $this->appendDomain($request);
@@ -151,7 +157,7 @@ class KaryawanService
 
         $check = $this->karyawanRepository->findByNIK($request->nik);
         if ($check == null) {
-            throw new ValidationException('Karyawan not found!');
+            throw new ValidationException('NIK not found!');
         }
 
         $karyawan = new Karyawan();
@@ -173,20 +179,18 @@ class KaryawanService
         $result = $this->karyawanRepository->findByNIK($request->nik);
 
         if ($result == null) {
-            throw new ValidationException('Invalid Username or Password!');
+            throw new ValidationException('Invalid username or password');
         }
 
         if (password_verify($request->password, $result->password)) {
+            $this->tokenRepository->save($request->nik, md5(date('YmdHis')));
+
+            $result = $this->karyawanRepository->findByNIK($request->nik);
             $response = new KaryawanResponse();
             $response->karyawan = $result;
-//            update token
-            $karyawan = new Karyawan();
-            $karyawan->nik = $request->nik;
-            $karyawan->token = md5(date('YmdHis'));
-            $this->karyawanRepository->updateToken($karyawan);
             return $response;
         } else {
-            throw new ValidationException('Invalid Username or Password!');
+            throw new ValidationException('Invalid username or password');
         }
     }
 

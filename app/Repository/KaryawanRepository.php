@@ -174,22 +174,6 @@ class KaryawanRepository
         return $statement->rowCount();
     }
 
-    public function updateToken(Karyawan $karyawan): int
-    {
-        $statement = $this->connection->prepare("UPDATE `m_karyawan`
-            SET `token` = ?,
-            `updated_at` = unix_timestamp()
-            WHERE `nik` = ?;
-        ");
-
-        $statement->execute([
-            $karyawan->token,
-            $karyawan->nik
-        ]);
-
-        return $statement->rowCount();
-    }
-
     public function updateFacePoint(Karyawan $karyawan): int
     {
         $statement = $this->connection->prepare("UPDATE `m_karyawan`
