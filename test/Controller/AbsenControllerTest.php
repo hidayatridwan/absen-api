@@ -93,7 +93,6 @@ class AbsenControllerTest extends TestCase
 
         $absen = new Absen();
         $absen->nik = '2200000001';
-        $absen->jam_absen = time();
         $this->absenRepository->save($absen);
 
         $this->absenController->findAll();

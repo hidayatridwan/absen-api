@@ -3,6 +3,7 @@
 namespace RidwanHidayat\Absen\API\Service;
 
 use Exception;
+use RidwanHidayat\Absen\API\Config\Database;
 use RidwanHidayat\Absen\API\Domain\Karyawan;
 use RidwanHidayat\Absen\API\Exception\ValidationException;
 use RidwanHidayat\Absen\API\Model\KaryawanRequest;
@@ -15,10 +16,11 @@ class KaryawanService
     private KaryawanRepository $karyawanRepository;
     private TokenRepository $tokenRepository;
 
-    public function __construct(KaryawanRepository $karyawanRepository, TokenRepository $tokenRepository)
+    public function __construct(KaryawanRepository $karyawanRepository)
     {
         $this->karyawanRepository = $karyawanRepository;
-        $this->tokenRepository = $tokenRepository;
+        $connection = Database::getConnection();
+        $this->tokenRepository = new TokenRepository($connection);
     }
 
     /**

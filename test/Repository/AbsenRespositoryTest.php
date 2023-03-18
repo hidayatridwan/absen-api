@@ -55,10 +55,9 @@ class AbsenRespositoryTest extends TestCase
         $this->saveKaryawan();
 
         $this->saveAbsen();
-        $this->saveAbsen();
 
         $result = $this->absenRepository->findAll();
-        self::assertCount(2, $result);
+        self::assertCount(1, $result);
     }
 
     public function testSaveSuccess()

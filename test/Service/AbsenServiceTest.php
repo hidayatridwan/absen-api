@@ -79,10 +79,9 @@ class AbsenServiceTest extends TestCase
         $this->saveKaryawan();
 
         $this->saveAbsen();
-        $this->saveAbsen();
 
         $result = $this->absenService->findAll();
 
-        self::assertCount(2, $result);
+        self::assertCount(1, $result);
     }
 }

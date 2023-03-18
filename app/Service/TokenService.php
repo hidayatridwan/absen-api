@@ -13,9 +13,9 @@ class TokenService
         $this->tokenRepository = $tokenRepository;
     }
 
-    public function save(string $token): int
+    public function save(string $nik, string $token): int
     {
-        return $this->tokenRepository->save($token);
+        return $this->tokenRepository->save($nik, $token);
     }
 
     public function get(?string $token): ?string
@@ -30,6 +30,6 @@ class TokenService
 
     public function delete(string $nik): int
     {
-        return $this->sessionRepository->deleteToken($nik);
+        return $this->tokenRepository->delete($nik);
     }
 }

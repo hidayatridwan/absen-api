@@ -31,10 +31,10 @@ class KaryawanControllerTest extends TestCase
     {
         $_POST['nik'] = '2200000001';
         $_POST['nama'] = 'Ridwan Hidayat';
-        $_POST['tanggal_lahir'] = '1993-04-07';
-        $_POST['jenis_kelamin'] = 'L';
-        $_POST['tempat_lahir'] = 'Sumedang';
-        $_POST['no_hp'] = '083141418173';
+        $_POST['tanggalLahir'] = '1993-04-07';
+        $_POST['jenisKelamin'] = 'L';
+        $_POST['tempatLahir'] = 'Sumedang';
+        $_POST['noHp'] = '083141418173';
         $_POST['alamat'] = 'Jl inhofftank';
         $_POST['email'] = 'ridwan.nurulhidayat@gmail.com';
         $_POST['divisi'] = 'IT';
@@ -43,7 +43,6 @@ class KaryawanControllerTest extends TestCase
         $this->karyawanController->save();
 
         self::assertEquals(201, http_response_code());
-//        self::expectOutputRegex('[data]');
     }
 
     public function testSaveFailed()
@@ -289,7 +288,7 @@ class KaryawanControllerTest extends TestCase
         $this->karyawanRepository->save($karyawan);
 
         $_POST['nik'] = '2200000001';
-        $_POST['token'] = '4377';
+        $_POST['facePoint'] = '[0,0,0]';
         $this->karyawanController->updateFacePoint();
 
         self::assertEquals(200, http_response_code());

@@ -35,9 +35,13 @@ class AbsenRepository
     public function findAll(): array
     {
         try {
-            $statement = $this->connection->query("SELECT *
-                FROM `t_absen`;
-            ");
+            $statement = $this->connection->query("SELECT 
+                nik,
+                MIN(jam_absen) AS jam_datang,
+                MAX(jam_absen) AS jam_pulang
+            FROM
+                t_absen
+            GROUP BY nik;");
 
             return $this->fetchToObject($statement);
         } finally {
