@@ -7,6 +7,7 @@ use RidwanHidayat\Absen\API\Config\Database;
 use RidwanHidayat\Absen\API\Controller\KaryawanController;
 use RidwanHidayat\Absen\API\Controller\AbsenController;
 use RidwanHidayat\Absen\API\Middleware\AuthMiddleware;
+use RidwanHidayat\Absen\API\Controller\KordinatController;
 
 Database::getConnection('prod');
 
@@ -22,5 +23,7 @@ Router::add('PUT', '/karyawan/face-point', KaryawanController::class, 'updateFac
 Router::add('GET', '/absen', AbsenController::class, 'findAll', [AuthMiddleware::class]);
 Router::add('GET', '/absen/([0-9]*)', AbsenController::class, 'findByNIK', [AuthMiddleware::class]);
 Router::add('POST', '/absen', AbsenController::class, 'save', [AuthMiddleware::class]);
+
+Router::add('GET', '/kordinat', KordinatController::class, 'findKordinatAktif', [AuthMiddleware::class]);
 
 Router::run();

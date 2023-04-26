@@ -4,6 +4,7 @@ namespace RidwanHidayat\Absen\API\Domain;
 
 class Karyawan
 {
+    public ?string $id;
     public ?string $nik;
     public ?string $nama;
     public ?string $jenisKelamin;

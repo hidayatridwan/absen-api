@@ -17,3 +17,7 @@ function getDatabaseConfig(): array
         ]
     ];
 }
+
+// 'url' => 'mysql:host=localhost;dbname=u1792164_byod',
+//                 'username' => 'u1792164_byod',
+//                 'password' => 'u1792164_byod'

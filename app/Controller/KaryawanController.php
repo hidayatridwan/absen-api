@@ -7,21 +7,17 @@ use RidwanHidayat\Absen\API\Config\Database;
 use RidwanHidayat\Absen\API\Helper\Helper;
 use RidwanHidayat\Absen\API\Model\KaryawanRequest;
 use RidwanHidayat\Absen\API\Repository\KaryawanRepository;
-use RidwanHidayat\Absen\API\Repository\TokenRepository;
 use RidwanHidayat\Absen\API\Service\KaryawanService;
-use RidwanHidayat\Absen\API\Service\TokenService;
 
 class KaryawanController
 {
     private KaryawanService $karyawanService;
-    private TokenService $tokenService;
 
     public function __construct()
     {
         $connection = Database::getConnection();
         $karyawanRepository = new KaryawanRepository($connection);
-        $tokenRepository = new TokenRepository($connection);
-        $this->karyawanService = new KaryawanService($karyawanRepository, $tokenRepository);
+        $this->karyawanService = new KaryawanService($karyawanRepository);
         header('Content-Type: application/json; charset=utf-8');
     }
 

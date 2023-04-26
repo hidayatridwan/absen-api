@@ -7,7 +7,6 @@ use RidwanHidayat\Absen\API\Exception\ValidationException;
 use RidwanHidayat\Absen\API\Model\AbsenRequest;
 use RidwanHidayat\Absen\API\Model\AbsenResponse;
 use RidwanHidayat\Absen\API\Repository\AbsenRepository;
-use Exception;
 
 class AbsenService
 {
@@ -19,6 +18,9 @@ class AbsenService
         $this->absenRepository = $absenRepository;
     }
 
+    /**
+     * @throws ValidationException
+     */
     private function validationAbsenRequest(AbsenRequest $request): void
     {
         if (!isset($request->nik)) {
@@ -30,38 +32,29 @@ class AbsenService
 
     public function findAll(): array
     {
-        try {
-            return $this->absenRepository->findAll();
-        } catch (Exception $exception) {
-            throw $exception;
-        }
+        return $this->absenRepository->findAll();
     }
 
     public function findByNIK(string $nik): array
     {
-        try {
-            return $this->absenRepository->findByNIK($nik);
-        } catch (Exception $exception) {
-            throw $exception;
-        }
+        return $this->absenRepository->findByNIK($nik);
     }
 
+    /**
+     * @throws ValidationException
+     */
     public function save(AbsenRequest $request): AbsenResponse
     {
         $this->validationAbsenRequest($request);
 
-        try {
-            $absen = new Absen();
-            $absen->nik = $request->nik;
+        $absen = new Absen();
+        $absen->nik = $request->nik;
 
-            $result = $this->absenRepository->save($absen);
+        $result = $this->absenRepository->save($absen);
 
-            $response = new AbsenResponse();
-            $response->absen = $result;
+        $response = new AbsenResponse();
+        $response->absen = $result;
 
-            return $response;
-        } catch (Exception $exception) {
-            throw $exception;
-        }
+        return $response;
     }
 }

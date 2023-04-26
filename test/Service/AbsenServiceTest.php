@@ -84,4 +84,15 @@ class AbsenServiceTest extends TestCase
 
         self::assertCount(1, $result);
     }
+
+    public function testFindByNIK()
+    {
+        $this->saveKaryawan();
+
+        $this->saveAbsen();
+
+        $result = $this->absenService->findByNIK('2200000001');
+
+        self::assertCount(1, $result);
+    }
 }

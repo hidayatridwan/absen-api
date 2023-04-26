@@ -2,7 +2,6 @@
 
 namespace RidwanHidayat\Absen\API\Service;
 
-use Exception;
 use RidwanHidayat\Absen\API\Config\Database;
 use RidwanHidayat\Absen\API\Domain\Karyawan;
 use RidwanHidayat\Absen\API\Exception\ValidationException;
@@ -68,25 +67,14 @@ class KaryawanService
         return $karyawan;
     }
 
-    /**
-     * @throws Exception
-     */
     public function findAll(): array
     {
-        try {
-            return $this->karyawanRepository->findAll();
-        } catch (Exception $exception) {
-            throw $exception;
-        }
+        return $this->karyawanRepository->findAll();
     }
 
     public function findByNIK(string $nik): ?Karyawan
     {
-        try {
-            return $this->karyawanRepository->findByNIK($nik);
-        } catch (Exception $exception) {
-            throw $exception;
-        }
+        return $this->karyawanRepository->findByNIK($nik);
     }
 
     /**
@@ -103,16 +91,12 @@ class KaryawanService
 
         $karyawan = $this->appendDomain($request);
 
-        try {
-            $result = $this->karyawanRepository->save($karyawan);
+        $result = $this->karyawanRepository->save($karyawan);
 
-            $response = new KaryawanResponse();
-            $response->karyawan = $result;
+        $response = new KaryawanResponse();
+        $response->karyawan = $result;
 
-            return $response;
-        } catch (Exception $exception) {
-            throw $exception;
-        }
+        return $response;
     }
 
     /**
@@ -129,25 +113,17 @@ class KaryawanService
 
         $karyawan = $this->appendDomain($request);
 
-        try {
-            $this->karyawanRepository->update($karyawan);
+        $this->karyawanRepository->update($karyawan);
 
-            $response = new KaryawanResponse();
-            $response->karyawan = $karyawan;
+        $response = new KaryawanResponse();
+        $response->karyawan = $karyawan;
 
-            return $response;
-        } catch (Exception $exception) {
-            throw $exception;
-        }
+        return $response;
     }
 
     public function delete(string $nik): int
     {
-        try {
-            return $this->karyawanRepository->deleteByNIK($nik);
-        } catch (Exception $exception) {
-            throw $exception;
-        }
+        return $this->karyawanRepository->deleteByNIK($nik);
     }
 
     /**
@@ -166,11 +142,7 @@ class KaryawanService
         $karyawan->nik = $request->nik;
         $karyawan->password = password_hash($request->password, PASSWORD_BCRYPT);
 
-        try {
-            return $this->karyawanRepository->updatePassword($karyawan);
-        } catch (Exception $exception) {
-            throw $exception;
-        }
+        return $this->karyawanRepository->updatePassword($karyawan);
     }
 
     /**
@@ -178,9 +150,11 @@ class KaryawanService
      */
     public function login(KaryawanRequest $request): ?KaryawanResponse
     {
+        Database::beginTransaction();
         $result = $this->karyawanRepository->findByNIK($request->nik);
 
         if ($result == null) {
+            Database::rollBackTransaction();
             throw new ValidationException('Invalid username or password');
         }
 
@@ -190,8 +164,12 @@ class KaryawanService
             $result = $this->karyawanRepository->findByNIK($request->nik);
             $response = new KaryawanResponse();
             $response->karyawan = $result;
+
+            Database::commitTransaction();
+
             return $response;
         } else {
+            Database::rollBackTransaction();
             throw new ValidationException('Invalid username or password');
         }
     }
@@ -202,10 +180,6 @@ class KaryawanService
         $karyawan->nik = $request->nik;
         $karyawan->facePoint = $request->facePoint;
 
-        try {
-            return $this->karyawanRepository->updateFacePoint($karyawan);
-        } catch (Exception $exception) {
-            throw $exception;
-        }
+        return $this->karyawanRepository->updateFacePoint($karyawan);
     }
 }

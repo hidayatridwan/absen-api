@@ -2,7 +2,6 @@
 
 namespace RidwanHidayat\Absen\API\Repository;
 
-use RidwanHidayat\Absen\API\Domain\Karyawan;
 use PDO;
 
 class TokenRepository
@@ -18,9 +17,8 @@ class TokenRepository
     public function save(string $nik, string $token): int
     {
         $statement = $this->connection->prepare("UPDATE `m_karyawan`
-            SET `token` = ?
-            WHERE `nik` = ?;
-        ");
+        SET `token` = ?
+        WHERE `nik` = ?;");
 
         $statement->execute([
             $token,
