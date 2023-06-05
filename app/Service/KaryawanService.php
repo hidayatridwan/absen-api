@@ -8,23 +8,16 @@ use RidwanHidayat\Absen\API\Exception\ValidationException;
 use RidwanHidayat\Absen\API\Model\KaryawanRequest;
 use RidwanHidayat\Absen\API\Model\KaryawanResponse;
 use RidwanHidayat\Absen\API\Repository\KaryawanRepository;
-use RidwanHidayat\Absen\API\Repository\TokenRepository;
 
 class KaryawanService
 {
     private KaryawanRepository $karyawanRepository;
-    private TokenRepository $tokenRepository;
 
     public function __construct(KaryawanRepository $karyawanRepository)
     {
         $this->karyawanRepository = $karyawanRepository;
-        $connection = Database::getConnection();
-        $this->tokenRepository = new TokenRepository($connection);
     }
 
-    /**
-     * @throws ValidationException
-     */
     private function validationKaryawanRequest(KaryawanRequest $request): void
     {
         if (!isset($request->nik) || !isset($request->nama)) {
@@ -36,9 +29,6 @@ class KaryawanService
         }
     }
 
-    /**
-     * @throws ValidationException
-     */
     private function validationPasswordRequest(KaryawanRequest $request): void
     {
         if (!isset($request->nik) || !isset($request->password)) {
@@ -63,8 +53,14 @@ class KaryawanService
         $karyawan->email = $request->email;
         $karyawan->divisi = $request->divisi;
         $karyawan->jabatan = $request->jabatan;
+        $karyawan->facePoint = $request->facePoint;
 
         return $karyawan;
+    }
+
+    public function apiKaryawan(string $nik): ?array
+    {
+        return $this->karyawanRepository->apiKaryawan($nik);
     }
 
     public function findAll(): array
@@ -77,9 +73,6 @@ class KaryawanService
         return $this->karyawanRepository->findByNIK($nik);
     }
 
-    /**
-     * @throws ValidationException
-     */
     public function save(KaryawanRequest $request): KaryawanResponse
     {
         $this->validationKaryawanRequest($request);
@@ -99,9 +92,6 @@ class KaryawanService
         return $response;
     }
 
-    /**
-     * @throws ValidationException
-     */
     public function update(KaryawanRequest $request): KaryawanResponse
     {
         $this->validationKaryawanRequest($request);
@@ -126,9 +116,6 @@ class KaryawanService
         return $this->karyawanRepository->deleteByNIK($nik);
     }
 
-    /**
-     * @throws ValidationException
-     */
     public function updatePassword(KaryawanRequest $request): int
     {
         $this->validationPasswordRequest($request);
@@ -145,9 +132,6 @@ class KaryawanService
         return $this->karyawanRepository->updatePassword($karyawan);
     }
 
-    /**
-     * @throws ValidationException
-     */
     public function login(KaryawanRequest $request): ?KaryawanResponse
     {
         Database::beginTransaction();
@@ -159,9 +143,6 @@ class KaryawanService
         }
 
         if (password_verify($request->password, $result->password)) {
-            $this->tokenRepository->save($request->nik, md5(date('YmdHis')));
-
-            $result = $this->karyawanRepository->findByNIK($request->nik);
             $response = new KaryawanResponse();
             $response->karyawan = $result;
 

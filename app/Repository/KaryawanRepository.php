@@ -25,7 +25,8 @@ class KaryawanRepository
             $karyawan->alamat,
             $karyawan->email,
             $karyawan->divisi,
-            $karyawan->jabatan
+            $karyawan->jabatan,
+            $karyawan->facePoint
         ];
     }
 
@@ -44,13 +45,32 @@ class KaryawanRepository
         $karyawan->divisi = $row['divisi'];
         $karyawan->jabatan = $row['jabatan'];
         $karyawan->password = $row['password'];
-        $karyawan->token = $row['token'];
         $karyawan->facePoint = $row['face_point'];
         $karyawan->aktif = $row['aktif'];
         $karyawan->createdAt = $row['created_at'];
         $karyawan->updatedAt = $row['updated_at'];
 
         return $karyawan;
+    }
+
+    public function apiKaryawan(string $nik): ?array
+    {
+        try {
+            $statement = $this->connection->prepare("SELECT *
+                FROM `mst_karyawan`
+                WHERE `NIK` = ?;
+            ");
+
+            $statement->execute([$nik]);
+
+            if ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+                return $row;
+            } else {
+                return null;
+            }
+        } finally {
+            $statement->closeCursor();
+        }
     }
 
     public function findAll(): array
@@ -107,16 +127,19 @@ class KaryawanRepository
                 `email`,
                 `divisi`,
                 `jabatan`,
+                `face_point`,
+                `password`,
                 `created_at`
             )
             VALUES
             (
-                ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, unix_timestamp()
+                ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, unix_timestamp()
             );
         ");
 
         $params = $this->appendParams($karyawan);
         array_unshift($params, $karyawan->nik);
+        array_push($params, password_hash($karyawan->tanggalLahir, PASSWORD_BCRYPT));
 
         $statement->execute($params);
 
@@ -125,7 +148,8 @@ class KaryawanRepository
 
     public function update(Karyawan $karyawan): Karyawan
     {
-        $statement = $this->connection->prepare("UPDATE `m_karyawan`
+        $statement = $this->connection->prepare(
+            "UPDATE `m_karyawan`
             SET `nama` = ?,
             `jenis_kelamin` = ?,
             `tempat_lahir` = ?,
@@ -149,7 +173,8 @@ class KaryawanRepository
 
     public function deleteByNIK(string $nik): int
     {
-        $statement = $this->connection->prepare("DELETE FROM `m_karyawan`
+        $statement = $this->connection->prepare(
+            "DELETE FROM `m_karyawan`
             WHERE `nik` = ?;"
         );
 

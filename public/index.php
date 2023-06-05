@@ -11,19 +11,24 @@ use RidwanHidayat\Absen\API\Controller\KordinatController;
 
 Database::getConnection('prod');
 
-Router::add('GET', '/karyawan', KaryawanController::class, 'findAll', [AuthMiddleware::class]);
-Router::add('GET', '/karyawan/([0-9]*)', KaryawanController::class, 'findByNIK', [AuthMiddleware::class]);
+// mobile app
+Router::add('GET', '/karyawan/([0-9A-Z]*)', KaryawanController::class, 'findByNIK', [AuthMiddleware::class]);
 Router::add('POST', '/karyawan', KaryawanController::class, 'save', [AuthMiddleware::class]);
-Router::add('PUT', '/karyawan', KaryawanController::class, 'update', [AuthMiddleware::class]);
-Router::add('DELETE', '/karyawan', KaryawanController::class, 'delete', [AuthMiddleware::class]);
-Router::add('PUT', '/karyawan/password', KaryawanController::class, 'updatePassword', [AuthMiddleware::class]);
 Router::add('POST', '/karyawan/login', KaryawanController::class, 'login', []);
-Router::add('PUT', '/karyawan/face-point', KaryawanController::class, 'updateFacePoint', []);
+Router::add('PATCH', '/karyawan/password', KaryawanController::class, 'updatePassword', [AuthMiddleware::class]);
 
-Router::add('GET', '/absen', AbsenController::class, 'findAll', [AuthMiddleware::class]);
-Router::add('GET', '/absen/([0-9]*)', AbsenController::class, 'findByNIK', [AuthMiddleware::class]);
+Router::add('GET', '/absen/([0-9A-Z]*)', AbsenController::class, 'findByNIK', [AuthMiddleware::class]);
 Router::add('POST', '/absen', AbsenController::class, 'save', [AuthMiddleware::class]);
 
 Router::add('GET', '/kordinat', KordinatController::class, 'findKordinatAktif', [AuthMiddleware::class]);
+
+// web admin
+Router::add('GET', '/api-karyawan/([0-9A-Z]*)', KaryawanController::class, 'apiKaryawan', [AuthMiddleware::class]);
+Router::add('GET', '/karyawan', KaryawanController::class, 'findAll', [AuthMiddleware::class]);
+Router::add('PATCH', '/karyawan/face-point', KaryawanController::class, 'updateFacePoint', []);
+Router::add('DELETE', '/karyawan/([0-9A-Z]*)', KaryawanController::class, 'delete', [AuthMiddleware::class]);
+Router::add('PATCH', '/karyawan/([0-9A-Z]*)', KaryawanController::class, 'update', [AuthMiddleware::class]);
+
+Router::add('GET', '/absen', AbsenController::class, 'findAll', [AuthMiddleware::class]);
 
 Router::run();

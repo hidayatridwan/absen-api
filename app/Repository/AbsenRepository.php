@@ -3,7 +3,6 @@
 namespace RidwanHidayat\Absen\API\Repository;
 
 use PDO;
-use PDOStatement;
 use RidwanHidayat\Absen\API\Domain\Absen;
 
 class AbsenRepository
@@ -16,56 +15,79 @@ class AbsenRepository
         $this->connection = $connection;
     }
 
-    public function fetchToObject(PDOStatement $statement): array
-    {
-        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-
-        $data = [];
-        foreach ($result as $row) {
-            $absen = new Absen();
-            $absen->nik = $row['nik'];
-            $absen->jamDatang = $row['jam_datang'];
-            $absen->jamPulang = $row['jam_pulang'];
-            $data[] = $absen;
-        }
-
-        return $data;
-    }
-
-    public function findAll(): array
+    public function findAll(string $startDate, string $endDate): array
     {
         try {
+            $this->connection->query("SELECT @startDate := UNIX_TIMESTAMP('$startDate'), @endDate := UNIX_TIMESTAMP('$endDate 23:59:59');");
             $statement = $this->connection->query("SELECT 
-                nik,
-                MIN(jam_absen) AS jam_datang,
-                MAX(jam_absen) AS jam_pulang
-            FROM
-                t_absen
-            GROUP BY nik;");
+                    t1.nik,
+                    t2.nama,
+                    t2.divisi,
+                    t2.jabatan,
+                    FROM_UNIXTIME(MIN(t1.jam_absen)) AS jam_datang,
+                    FROM_UNIXTIME(MAX(t1.jam_absen)) AS jam_pulang
+                FROM
+                    t_absen as t1
+                LEFT JOIN m_karyawan as t2 on t1.nik = t2.nik
+                WHERE t1.jam_absen BETWEEN @startDate AND @endDate
+                GROUP BY
+                t1.nik,
+                DATE_FORMAT(FROM_UNIXTIME(t1.jam_absen), '%Y-%m-%d');
+            ");
 
-            return $this->fetchToObject($statement);
+            $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+            $data = [];
+            foreach ($result as $row) {
+                $absen = new Absen();
+                $absen->nik = $row['nik'];
+                $absen->nama = $row['nama'];
+                $absen->divisi = $row['divisi'];
+                $absen->jabatan = $row['jabatan'];
+                $absen->jamDatang = $row['jam_datang'];
+                $absen->jamPulang = $row['jam_pulang'];
+                $data[] = $absen;
+            }
+
+            return $data;
         } finally {
             $statement->closeCursor();
         }
     }
 
-    public function findByNIK(string $nik): array
+    public function findByNIK(string $nik, string $period): array
     {
         try {
+            $startDate = date('Y-m-01', strtotime($period));
+            $endDate = $period;
+
+            $this->connection->query("SELECT @startDate := UNIX_TIMESTAMP('$startDate'), @endDate := UNIX_TIMESTAMP('$endDate 23:59:59');");
             $statement = $this->connection->prepare("SELECT 
-                nik,
-                MIN(jam_absen) AS jam_datang,
-                MAX(jam_absen) AS jam_pulang
-            FROM
-                t_absen
-            WHERE `nik` = ?
-            GROUP BY nik,
-            DATE_FORMAT(FROM_UNIXTIME(jam_absen), '%Y-%m-%d');
+                    nik,
+                    FROM_UNIXTIME(MIN(jam_absen)) AS jam_datang,
+                    FROM_UNIXTIME(MAX(jam_absen)) AS jam_pulang
+                FROM
+                    t_absen
+                WHERE `nik` = ?
+                AND `jam_absen` BETWEEN @startDate AND @endDate
+                GROUP BY nik,
+                DATE_FORMAT(FROM_UNIXTIME(jam_absen), '%Y-%m-%d');
             ");
 
             $statement->execute([$nik]);
 
-            return $this->fetchToObject($statement);
+            $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+            $data = [];
+            foreach ($result as $row) {
+                $absen = new Absen();
+                $absen->nik = $row['nik'];
+                $absen->jamDatang = $row['jam_datang'];
+                $absen->jamPulang = $row['jam_pulang'];
+                $data[] = $absen;
+            }
+
+            return $data;
         } finally {
             $statement->closeCursor();
         }
@@ -80,8 +102,7 @@ class AbsenRepository
             )
             VALUES
             (
-                ?,
-                unix_timestamp()
+                ?, unix_timestamp()
             );
         ");
 

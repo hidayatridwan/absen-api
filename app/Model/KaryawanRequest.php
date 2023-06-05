@@ -15,6 +15,5 @@ class KaryawanRequest
     public ?string $divisi = null;
     public ?string $jabatan = null;
     public ?string $password = null;
-    public ?string $token = null;
     public ?string $facePoint = null;
 }

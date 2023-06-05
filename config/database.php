@@ -5,14 +5,14 @@ function getDatabaseConfig(): array
     return [
         'database' => [
             'prod' => [
-                'url' => 'mysql:host=localhost:3306;dbname=absen_api',
+                'url' => 'mysql:host=db;dbname=absen_api',
                 'username' => 'root',
-                'password' => ''
+                'password' => '4377'
             ],
             'test' => [
-                'url' => 'mysql:host=localhost:3306;dbname=absen_api_test',
+                'url' => 'mysql:host=db;dbname=absen_api_test',
                 'username' => 'root',
-                'password' => ''
+                'password' => '4377'
             ]
         ]
     ];

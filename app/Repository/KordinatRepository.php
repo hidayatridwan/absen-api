@@ -18,10 +18,11 @@ class KordinatRepository
     {
         try {
             $statement = $this->connection->query("SELECT
-                *
-            FROM
-                m_kordinat
-            WHERE aktif = 'Y';");
+                    *
+                FROM
+                    m_kordinat
+                WHERE aktif = 'Y';
+            ");
 
             $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 

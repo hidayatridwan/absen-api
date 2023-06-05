@@ -24,11 +24,18 @@ class AbsenController
 
     public function findAll(): void
     {
-        $result = $this->absenService->findAll();
+        if (!isset($_GET['startDate']) || !isset($_GET['endDate'])) {
+            http_response_code(400);
+            $response = [
+                'error' => 'Start - End date required.'
+            ];
+            echo json_encode($response);
+            die;
+        }
+        $startDate = $_GET['startDate'];
+        $endDate = $_GET['endDate'];
 
-        $result = [
-            'result' => $result
-        ];
+        $result = $this->absenService->findAll($startDate, $endDate);
 
         http_response_code(200);
         echo json_encode($result);
@@ -36,7 +43,8 @@ class AbsenController
 
     public function findByNIK(string $nik): void
     {
-        $result = $this->absenService->findByNIK($nik);
+        $period = isset($_GET['period']) ? $_GET['period'] : date('Y-m-d');
+        $result = $this->absenService->findByNIK($nik, $period);
 
         $response = [
             'result' => $result

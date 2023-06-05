@@ -6,6 +6,9 @@ class Absen
 {
 
     public ?string $nik;
-    public ?int $jamDatang;
-    public ?int $jamPulang;
+    public ?string $nama;
+    public ?string $divisi;
+    public ?string $jabatan;
+    public ?string $jamDatang;
+    public ?string $jamPulang;
 }

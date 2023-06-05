@@ -18,9 +18,6 @@ class AbsenService
         $this->absenRepository = $absenRepository;
     }
 
-    /**
-     * @throws ValidationException
-     */
     private function validationAbsenRequest(AbsenRequest $request): void
     {
         if (!isset($request->nik)) {
@@ -30,19 +27,16 @@ class AbsenService
         }
     }
 
-    public function findAll(): array
+    public function findAll(string $startDate, string $endDate): array
     {
-        return $this->absenRepository->findAll();
+        return $this->absenRepository->findAll($startDate, $endDate);
     }
 
-    public function findByNIK(string $nik): array
+    public function findByNIK(string $nik, string $period): array
     {
-        return $this->absenRepository->findByNIK($nik);
+        return $this->absenRepository->findByNIK($nik, $period);
     }
 
-    /**
-     * @throws ValidationException
-     */
     public function save(AbsenRequest $request): AbsenResponse
     {
         $this->validationAbsenRequest($request);
