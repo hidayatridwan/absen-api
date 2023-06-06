@@ -53,26 +53,6 @@ class KaryawanRepository
         return $karyawan;
     }
 
-    public function apiKaryawan(string $nik): ?array
-    {
-        try {
-            $statement = $this->connection->prepare("SELECT *
-                FROM `mst_karyawan`
-                WHERE `NIK` = ?;
-            ");
-
-            $statement->execute([$nik]);
-
-            if ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
-                return $row;
-            } else {
-                return null;
-            }
-        } finally {
-            $statement->closeCursor();
-        }
-    }
-
     public function findAll(): array
     {
         try {

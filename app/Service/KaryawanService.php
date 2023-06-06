@@ -58,11 +58,6 @@ class KaryawanService
         return $karyawan;
     }
 
-    public function apiKaryawan(string $nik): ?array
-    {
-        return $this->karyawanRepository->apiKaryawan($nik);
-    }
-
     public function findAll(): array
     {
         return $this->karyawanRepository->findAll();

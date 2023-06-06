@@ -39,25 +39,6 @@ class KaryawanController
         return $request;
     }
 
-    public function apiKaryawan(string $nik): void
-    {
-        $result = $this->karyawanService->apiKaryawan($nik);
-
-        if ($result != null) {
-            $response = [
-                'result' => $result
-            ];
-            http_response_code(200);
-        } else {
-            $response = [
-                'message' => 'Data was not found.'
-            ];
-            http_response_code(404);
-        }
-
-        echo json_encode($response);
-    }
-
     public function findAll(): void
     {
         $result = $this->karyawanService->findAll();

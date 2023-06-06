@@ -7,7 +7,7 @@ class AuthMiddleware implements Middleware
 
     function before(): void
     {
-        $token = getallheaders()['Token'] ?? null;
+        $token = getallheaders()['token'] ?? null;
 
         if ($token != 'ridwan123') {
 
