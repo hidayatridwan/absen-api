@@ -18,9 +18,21 @@ class KordinatController
         header('Content-Type: application/json; charset=utf-8');
     }
 
-    public function findKordinatAktif(): void
+    public function findKordinatAktif(string $nik): void
     {
-        $result = $this->kordinatService->findKordinatAktif();
+        $result = $this->kordinatService->findKordinatAktif($nik);
+
+        $response = [
+            'result' => $result
+        ];
+        http_response_code(200);
+
+        echo json_encode($response);
+    }
+
+    public function updateKordinatAktif(string $nama): void
+    {
+        $result = $this->kordinatService->updateKordinatAktif($nama);
 
         $response = [
             'result' => $result

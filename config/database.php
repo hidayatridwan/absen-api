@@ -5,19 +5,15 @@ function getDatabaseConfig(): array
     return [
         'database' => [
             'prod' => [
-                'url' => 'mysql:host=db;dbname=absen_api',
-                'username' => 'root',
-                'password' => '4377'
+                'url' => 'mysql:host=' . $_ENV['DB_HOST'] . ';dbname=' . $_ENV['DB_NAME_PROD'],
+                'username' => $_ENV['DB_USER'],
+                'password' => $_ENV['DB_PWD']
             ],
             'test' => [
-                'url' => 'mysql:host=db;dbname=absen_api_test',
-                'username' => 'root',
-                'password' => '4377'
+                'url' => 'mysql:host=' . $_ENV['DB_HOST'] . ';dbname=' . $_ENV['DB_NAME_PROD'],
+                'username' => $_ENV['DB_USER'],
+                'password' => $_ENV['DB_PWD']
             ]
         ]
     ];
 }
-
-// 'url' => 'mysql:host=localhost;dbname=u1792164_byod',
-//                 'username' => 'u1792164_byod',
-//                 'password' => 'u1792164_byod'

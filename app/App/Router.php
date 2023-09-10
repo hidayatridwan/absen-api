@@ -6,8 +6,13 @@ class Router
 {
     private static array $routes = [];
 
-    public static function add(string $method, string $path, string $controller, string $function, array $middlewares = []): void
-    {
+    public static function add(
+        string $method,
+        string $path,
+        string $controller,
+        string $function,
+        array $middlewares = []
+    ): void {
         self::$routes[] = [
             'method' => $method,
             'path' => $path,
@@ -25,6 +30,10 @@ class Router
         }
 
         $method = $_SERVER['REQUEST_METHOD'];
+
+        if ($method == 'OPTIONS') {
+            die;
+        }
 
         foreach (self::$routes as $route) {
 

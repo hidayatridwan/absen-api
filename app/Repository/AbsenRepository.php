@@ -15,10 +15,14 @@ class AbsenRepository
         $this->connection = $connection;
     }
 
-    public function findAll(string $startDate, string $endDate): array
+    public function findAll(string $period): array
     {
         try {
-            $this->connection->query("SELECT @startDate := UNIX_TIMESTAMP('$startDate'), @endDate := UNIX_TIMESTAMP('$endDate 23:59:59');");
+            $startDate = $period . '-01';
+            $endDate = date('Y-m-t', strtotime($startDate));
+            $endDate = $endDate . ' 23:59:59';
+
+            $this->connection->query("SELECT @startDate := UNIX_TIMESTAMP('$startDate'), @endDate := UNIX_TIMESTAMP('$endDate');");
             $statement = $this->connection->query("SELECT 
                     t1.nik,
                     t2.nama,
@@ -29,7 +33,7 @@ class AbsenRepository
                 FROM
                     t_absen as t1
                 LEFT JOIN m_karyawan as t2 on t1.nik = t2.nik
-                WHERE t1.jam_absen BETWEEN @startDate AND @endDate
+                WHERE t1.`jam_absen` BETWEEN @startDate AND @endDate
                 GROUP BY
                 t1.nik,
                 DATE_FORMAT(FROM_UNIXTIME(t1.jam_absen), '%Y-%m-%d');
@@ -59,9 +63,9 @@ class AbsenRepository
     {
         try {
             $startDate = date('Y-m-01', strtotime($period));
-            $endDate = $period;
+            $endDate = $period . ' 23:59:59';
 
-            $this->connection->query("SELECT @startDate := UNIX_TIMESTAMP('$startDate'), @endDate := UNIX_TIMESTAMP('$endDate 23:59:59');");
+            $this->connection->query("SELECT @startDate := UNIX_TIMESTAMP('$startDate'), @endDate := UNIX_TIMESTAMP('$endDate');");
             $statement = $this->connection->prepare("SELECT 
                     nik,
                     FROM_UNIXTIME(MIN(jam_absen)) AS jam_datang,

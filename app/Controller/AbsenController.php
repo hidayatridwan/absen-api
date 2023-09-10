@@ -24,18 +24,17 @@ class AbsenController
 
     public function findAll(): void
     {
-        if (!isset($_GET['startDate']) || !isset($_GET['endDate'])) {
+        if (!isset($_GET['period'])) {
             http_response_code(400);
             $response = [
-                'error' => 'Start - End date required.'
+                'error' => 'Periode required.'
             ];
             echo json_encode($response);
             die;
         }
-        $startDate = $_GET['startDate'];
-        $endDate = $_GET['endDate'];
+        $period = $_GET['period'];
 
-        $result = $this->absenService->findAll($startDate, $endDate);
+        $result = $this->absenService->findAll($period);
 
         http_response_code(200);
         echo json_encode($result);

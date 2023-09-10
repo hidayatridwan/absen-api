@@ -27,9 +27,9 @@ class AbsenService
         }
     }
 
-    public function findAll(string $startDate, string $endDate): array
+    public function findAll(string $period): array
     {
-        return $this->absenRepository->findAll($startDate, $endDate);
+        return $this->absenRepository->findAll($period);
     }
 
     public function findByNIK(string $nik, string $period): array
