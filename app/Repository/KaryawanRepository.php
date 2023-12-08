@@ -183,6 +183,7 @@ class KaryawanRepository
     {
         $statement = $this->connection->prepare("UPDATE `m_karyawan`
             SET `face_point` = ?,
+            `password` = ?,
             `updated_at` = unix_timestamp()
             WHERE `nik` = ?;
         ");

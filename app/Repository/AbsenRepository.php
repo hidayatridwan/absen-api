@@ -65,8 +65,11 @@ class AbsenRepository
             $startDate = date('Y-m-01', strtotime($period));
             $endDate = $period . ' 23:59:59';
 
-            $this->connection->query("SELECT @startDate := UNIX_TIMESTAMP('$startDate'), @endDate := UNIX_TIMESTAMP('$endDate');");
-            $statement = $this->connection->prepare("SELECT 
+            $this->connection->query("SELECT
+            @startDate := UNIX_TIMESTAMP('$startDate'),
+            @endDate := UNIX_TIMESTAMP('$endDate');");
+
+            $statement = $this->connection->prepare("SELECT
                     nik,
                     FROM_UNIXTIME(MIN(jam_absen)) AS jam_datang,
                     FROM_UNIXTIME(MAX(jam_absen)) AS jam_pulang

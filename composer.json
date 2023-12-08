@@ -25,5 +25,12 @@
     "psr-4": {
       "RidwanHidayat\\Absen\\API\\": "test"
     }
+  },
+  "scripts": {
+    "start": "php -S localhost:83 -t public"
+  },
+  "config": {
+    "process-timeout": 0,
+    "sort-packages": true
   }
 }

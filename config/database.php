@@ -10,7 +10,7 @@ function getDatabaseConfig(): array
                 'password' => $_ENV['DB_PWD']
             ],
             'test' => [
-                'url' => 'mysql:host=' . $_ENV['DB_HOST'] . ';dbname=' . $_ENV['DB_NAME_PROD'],
+                'url' => 'mysql:host=' . $_ENV['DB_HOST'] . ';dbname=' . $_ENV['DB_NAME_TEST'],
                 'username' => $_ENV['DB_USER'],
                 'password' => $_ENV['DB_PWD']
             ]

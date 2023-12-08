@@ -50,7 +50,7 @@ Options All -Indexes
 
 <IfModule mod_headers.c>
 	Header add Access-Control-Allow-Headers "Origin, X-Requested-With, Content-Type, Accept, X-Api-Key"
-	Header add Access-Control-Allow-Origin "http://localhost:3000, https://test.gwenza.com/public"
+	Header add Access-Control-Allow-Origin "http://localhost:3000, https://thorough-mayfly-leading.ngrok-free.app"
 	Header add Access-Control-Allow-Methods "GET, POST, PATCH, PUT, DELETE, OPTIONS"
 	Header add Cache-Control "no-cache, no-store, must-revalidate"
     Header add Pragma "no-cache"
