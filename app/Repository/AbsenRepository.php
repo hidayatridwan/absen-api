@@ -22,8 +22,9 @@ class AbsenRepository
             $endDate = date('Y-m-t', strtotime($startDate));
             $endDate = $endDate . ' 23:59:59';
 
-            $this->connection->query("SELECT @startDate := UNIX_TIMESTAMP('$startDate'), @endDate := UNIX_TIMESTAMP('$endDate');");
-            $statement = $this->connection->query("SELECT 
+            $this->connection->query("SELECT @startDate := UNIX_TIMESTAMP('$startDate'),
+            @endDate := UNIX_TIMESTAMP('$endDate');");
+            $statement = $this->connection->query("SELECT
                     t1.nik,
                     t2.nama,
                     t2.divisi,
@@ -36,7 +37,8 @@ class AbsenRepository
                 WHERE t1.`jam_absen` BETWEEN @startDate AND @endDate
                 GROUP BY
                 t1.nik,
-                DATE_FORMAT(FROM_UNIXTIME(t1.jam_absen), '%Y-%m-%d');
+                DATE_FORMAT(FROM_UNIXTIME(t1.jam_absen), '%Y-%m-%d')
+                ORDER BY DATE_FORMAT(FROM_UNIXTIME(jam_absen), '%Y-%m-%d');
             ");
 
             $result = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -78,7 +80,8 @@ class AbsenRepository
                 WHERE `nik` = ?
                 AND `jam_absen` BETWEEN @startDate AND @endDate
                 GROUP BY nik,
-                DATE_FORMAT(FROM_UNIXTIME(jam_absen), '%Y-%m-%d');
+                DATE_FORMAT(FROM_UNIXTIME(jam_absen), '%Y-%m-%d')
+                ORDER BY DATE_FORMAT(FROM_UNIXTIME(jam_absen), '%Y-%m-%d');
             ");
 
             $statement->execute([$nik]);

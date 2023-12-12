@@ -142,6 +142,7 @@ class KaryawanController
         $request = new KaryawanRequest();
         $request->nik = $_POST['nik'];
         $request->password = $_POST['password'];
+        $request->oldPassword = $_POST['oldPassword'];
 
         try {
             $this->karyawanService->updatePassword($request);

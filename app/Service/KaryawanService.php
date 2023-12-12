@@ -120,6 +120,10 @@ class KaryawanService
             throw new ValidationException('NIK not found!');
         }
 
+        if (!password_verify($request->oldPassword, $check->password)) {
+            throw new ValidationException('Old password is not valid');
+        }
+
         $karyawan = new Karyawan();
         $karyawan->nik = $request->nik;
         $karyawan->password = password_hash($request->password, PASSWORD_BCRYPT);
