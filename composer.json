@@ -27,7 +27,7 @@
     }
   },
   "scripts": {
-    "start": "php -S 127.0.0.1:80 -t public"
+    "start": "php -S 127.0.0.1:83 -t public"
   },
   "config": {
     "process-timeout": 0,
