@@ -60,6 +60,8 @@ class Router
 
         http_response_code(404);
         header('Content-Type: application/json; charset=utf-8');
-        echo json_encode(array('message' => 'Invalid address'));
+        echo json_encode([
+            'message' => 'Invalid address'
+        ]);
     }
 }
