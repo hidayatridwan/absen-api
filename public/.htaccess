@@ -1,20 +1,4 @@
-# nginx configuration by winginx.com
-
-autoindex off;
-
-error_page 404 index.php;
-
-autoindex off;
-
-location / {
-  if (!-e $request_filename){
-    rewrite ^(.*)$ /%1 redirect;
-  }
-  if ($http_host ~* "^www\.(.+)$"){
-    set $http_host_1 $1;
-    rewrite ^(.*)$ http://$http_host_1$request_uri redirect;
-  }
-  if (!-e $request_filename){
-    rewrite ^/([\s\S]*)$ /index.php/$1 break;
-  }
-}
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?/$1 [L]
