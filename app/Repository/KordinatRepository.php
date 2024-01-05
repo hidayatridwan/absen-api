@@ -12,6 +12,7 @@ class KordinatRepository
     public function __construct(PDO $connection)
     {
         $this->connection = $connection;
+        $this->connection->query("set time_zone = '+07:00';");
     }
 
     public function get(string $nik): array

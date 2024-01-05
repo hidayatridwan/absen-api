@@ -13,6 +13,7 @@ class AbsenRepository
     public function __construct(PDO $connection)
     {
         $this->connection = $connection;
+        $this->connection->query("set time_zone = '+07:00';");
     }
 
     public function findAll(string $period): array
@@ -66,8 +67,6 @@ class AbsenRepository
         try {
             $startDate = date('Y-m-01', strtotime($period));
             $endDate = $period . ' 23:59:59';
-
-            $this->connection->query("set time_zone = '+07:00';");
 
             $this->connection->query("SELECT
             @startDate := UNIX_TIMESTAMP('$startDate'),

@@ -12,6 +12,7 @@ class KaryawanRepository
     public function __construct(PDO $connection)
     {
         $this->connection = $connection;
+        $this->connection->query("set time_zone = '+07:00';");
     }
 
     protected function appendParams(Karyawan $karyawan): array
