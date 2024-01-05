@@ -67,6 +67,8 @@ class AbsenRepository
             $startDate = date('Y-m-01', strtotime($period));
             $endDate = $period . ' 23:59:59';
 
+            $this->connection->query("set time_zone = '+07:00';");
+
             $this->connection->query("SELECT
             @startDate := UNIX_TIMESTAMP('$startDate'),
             @endDate := UNIX_TIMESTAMP('$endDate');");
