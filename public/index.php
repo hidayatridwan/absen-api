@@ -25,17 +25,17 @@ Database::getConnection('prod');
 // mobile app
 Router::add('POST', '/karyawan/login', KaryawanController::class, 'login', []);
 Router::add('POST', '/karyawan', KaryawanController::class, 'save', [AuthMiddleware::class]);
-Router::add('GET', '/karyawan/([0-9A-Z]*)', KaryawanController::class, 'findByNIK', [AuthMiddleware::class]);
+Router::add('GET', '/karyawan/([0-9a-z]*)', KaryawanController::class, 'findByNIK', [AuthMiddleware::class]);
 Router::add('PATCH', '/karyawan/password', KaryawanController::class, 'updatePassword', [AuthMiddleware::class]);
-Router::add('GET', '/absen/([0-9A-Z]*)', AbsenController::class, 'findByNIK', [AuthMiddleware::class]);
+Router::add('GET', '/absen/([0-9a-z]*)', AbsenController::class, 'findByNIK', [AuthMiddleware::class]);
 Router::add('POST', '/absen', AbsenController::class, 'save', [AuthMiddleware::class]);
-Router::add('GET', '/kordinat/([0-9A-Z]*)', KordinatController::class, 'findKordinatAktif', [AuthMiddleware::class]);
+Router::add('GET', '/kordinat/([0-9a-z]*)', KordinatController::class, 'findKordinatAktif', [AuthMiddleware::class]);
 
 // web admin
 Router::add('GET', '/karyawan', KaryawanController::class, 'findAll', [AuthMiddleware::class]);
 Router::add('PATCH', '/karyawan/face-point', KaryawanController::class, 'updateFacePoint', [AuthMiddleware::class]);
-Router::add('DELETE', '/karyawan/([0-9A-Z]*)', KaryawanController::class, 'delete', [AuthMiddleware::class]);
-Router::add('PATCH', '/karyawan/([0-9A-Z]*)', KaryawanController::class, 'update', [AuthMiddleware::class]);
+Router::add('DELETE', '/karyawan/([0-9a-z]*)', KaryawanController::class, 'delete', [AuthMiddleware::class]);
+Router::add('PATCH', '/karyawan/([0-9a-z]*)', KaryawanController::class, 'update', [AuthMiddleware::class]);
 Router::add('GET', '/absen', AbsenController::class, 'findAll', [AuthMiddleware::class]);
 Router::add('PATCH', '/kordinat/([a-z]*)', KordinatController::class, 'updateKordinatAktif', [AuthMiddleware::class]);
 
