@@ -111,14 +111,11 @@ class KaryawanController
         echo json_encode($response);
     }
 
-    public function delete(): void
+    public function delete(string $nik): void
     {
         Helper::parseToPost();
 
-        $request = new KaryawanRequest();
-        $request->nik = $_POST['nik'];
-
-        $result = $this->karyawanService->delete($request->nik);
+        $result = $this->karyawanService->delete($nik);
 
         if ($result > 0) {
             $response = [
