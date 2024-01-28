@@ -17,9 +17,8 @@ class KordinatControllerTest extends TestCase
 
     public function testFindByNama()
     {
-        $this->kordinatController->findKordinatAktif();
+        $this->kordinatController->findKordinatAktif('office');
 
         self::assertEquals(200, http_response_code());
     }
-
 }

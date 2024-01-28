@@ -39,6 +39,7 @@ class KaryawanControllerTest extends TestCase
         $_POST['email'] = 'ridwan.nurulhidayat@gmail.com';
         $_POST['divisi'] = 'IT';
         $_POST['jabatan'] = 'Programmer';
+        $_POST['facePoint'] = '[1,2,3,4,5]';
 
         $this->karyawanController->save();
 
@@ -49,14 +50,15 @@ class KaryawanControllerTest extends TestCase
     {
         $_POST['nik'] = '';
         $_POST['nama'] = '';
-        $_POST['tanggal_lahir'] = '1993-04-07';
-        $_POST['jenis_kelamin'] = 'L';
-        $_POST['tempat_lahir'] = 'Sumedang';
-        $_POST['no_hp'] = '083141418173';
+        $_POST['tanggalLahir'] = '1993-04-07';
+        $_POST['jenisKelamin'] = 'L';
+        $_POST['tempatLahir'] = 'Sumedang';
+        $_POST['noHp'] = '083141418173';
         $_POST['alamat'] = 'Jl inhofftank';
         $_POST['email'] = 'ridwan.nurulhidayat@gmail.com';
         $_POST['divisi'] = 'IT';
         $_POST['jabatan'] = 'Programmer';
+        $_POST['facePoint'] = '[1,2,3,4,5]';
         $this->karyawanController->save();
 
         self::assertEquals(400, http_response_code());
@@ -75,19 +77,21 @@ class KaryawanControllerTest extends TestCase
         $karyawan->email = 'ridwan.nurulhidayat@gmail.com';
         $karyawan->divisi = 'IT';
         $karyawan->jabatan = 'Programmer';
+        $karyawan->facePoint = '[1,2,3,4,5]';
         $karyawan->createdAt = time();
         $this->karyawanRepository->save($karyawan);
 
         $_POST['nik'] = '2200000001';
         $_POST['nama'] = 'Ridwan Hidayat';
-        $_POST['tanggal_lahir'] = '1993-04-07';
-        $_POST['jenis_kelamin'] = 'L';
-        $_POST['tempat_lahir'] = 'Sumedang';
-        $_POST['no_hp'] = '083141418173';
+        $_POST['tanggalLahir'] = '1993-04-07';
+        $_POST['jenisKelamin'] = 'L';
+        $_POST['tempatLahir'] = 'Sumedang';
+        $_POST['noHp'] = '083141418173';
         $_POST['alamat'] = 'Jl inhofftank';
         $_POST['email'] = 'ridwan.nurulhidayat@gmail.com';
         $_POST['divisi'] = 'IT';
         $_POST['jabatan'] = 'Programmer';
+        $_POST['facePoint'] = '[1,2,3,4,5]';
         $this->karyawanController->save();
 
         self::assertEquals(400, http_response_code());
@@ -106,6 +110,7 @@ class KaryawanControllerTest extends TestCase
         $karyawan->email = 'ridwan.nurulhidayat@gmail.com';
         $karyawan->divisi = 'IT';
         $karyawan->jabatan = 'Programmer';
+        $karyawan->facePoint = '[1,2,3,4,5]';
         $this->karyawanRepository->save($karyawan);
 
         $this->karyawanController->findByNIK('2200000001');
@@ -133,6 +138,7 @@ class KaryawanControllerTest extends TestCase
         $karyawan->email = 'ridwan.nurulhidayat@gmail.com';
         $karyawan->divisi = 'IT';
         $karyawan->jabatan = 'Programmer';
+        $karyawan->facePoint = '[1,2,3,4,5]';
         $karyawan->createdAt = time();
         $this->karyawanRepository->save($karyawan);
 
@@ -155,19 +161,21 @@ class KaryawanControllerTest extends TestCase
         $karyawan->email = 'ridwan.nurulhidayat@gmail.com';
         $karyawan->divisi = 'IT';
         $karyawan->jabatan = 'Programmer';
+        $karyawan->facePoint = '[1,2,3,4,5]';
         $karyawan->createdAt = time();
         $this->karyawanRepository->save($karyawan);
 
         $_POST['nik'] = '2200000001';
         $_POST['nama'] = 'DONO';
-        $_POST['tanggal_lahir'] = '2000-04-07';
-        $_POST['jenis_kelamin'] = 'L';
-        $_POST['tempat_lahir'] = 'Sumedang';
-        $_POST['no_hp'] = '083141418173';
+        $_POST['tanggalLahir'] = '1993-04-07';
+        $_POST['jenisKelamin'] = 'L';
+        $_POST['tempatLahir'] = 'Sumedang';
+        $_POST['noHp'] = '083141418173';
         $_POST['alamat'] = 'Jl inhofftank';
         $_POST['email'] = 'ridwan.nurulhidayat@gmail.com';
         $_POST['divisi'] = 'IT';
         $_POST['jabatan'] = 'Programmer';
+        $_POST['facePoint'] = '[1,2,3,4,5]';
         $this->karyawanController->update();
 
         self::assertEquals(200, http_response_code());
@@ -177,14 +185,15 @@ class KaryawanControllerTest extends TestCase
     {
         $_POST['nik'] = 'NotFound';
         $_POST['nama'] = 'DONO';
-        $_POST['tanggal_lahir'] = '2000-04-07';
-        $_POST['jenis_kelamin'] = 'L';
-        $_POST['tempat_lahir'] = 'Sumedang';
-        $_POST['no_hp'] = '083141418173';
+        $_POST['tanggalLahir'] = '1993-04-07';
+        $_POST['jenisKelamin'] = 'L';
+        $_POST['tempatLahir'] = 'Sumedang';
+        $_POST['noHp'] = '083141418173';
         $_POST['alamat'] = 'Jl inhofftank';
         $_POST['email'] = 'ridwan.nurulhidayat@gmail.com';
         $_POST['divisi'] = 'IT';
         $_POST['jabatan'] = 'Programmer';
+        $_POST['facePoint'] = '[1,2,3,4,5]';
         $this->karyawanController->update();
 
         self::assertEquals(400, http_response_code());
@@ -203,19 +212,18 @@ class KaryawanControllerTest extends TestCase
         $karyawan->email = 'ridwan.nurulhidayat@gmail.com';
         $karyawan->divisi = 'IT';
         $karyawan->jabatan = 'Programmer';
+        $karyawan->facePoint = '[1,2,3,4,5]';
         $karyawan->createdAt = time();
         $this->karyawanRepository->save($karyawan);
 
-        $_POST['nik'] = '2200000001';
-        $this->karyawanController->delete();
+        $this->karyawanController->delete('2200000001');
 
         self::assertEquals(200, http_response_code());
     }
 
     public function testDeleteFailed()
     {
-        $_GET['nik'] = 'NotFound';
-        $this->karyawanController->delete();
+        $this->karyawanController->delete('NotFound');
 
         self::assertEquals(400, http_response_code());
     }
@@ -233,10 +241,12 @@ class KaryawanControllerTest extends TestCase
         $karyawan->email = 'ridwan.nurulhidayat@gmail.com';
         $karyawan->divisi = 'IT';
         $karyawan->jabatan = 'Programmer';
+        $karyawan->facePoint = '[1,2,3,4,5]';
         $karyawan->createdAt = time();
         $this->karyawanRepository->save($karyawan);
 
         $_POST['nik'] = '2200000001';
+        $_POST['oldPassword'] = '1993-04-07';
         $_POST['password'] = '4377';
         $this->karyawanController->updatePassword();
 
@@ -256,6 +266,7 @@ class KaryawanControllerTest extends TestCase
         $karyawan->email = 'ridwan.nurulhidayat@gmail.com';
         $karyawan->divisi = 'IT';
         $karyawan->jabatan = 'Programmer';
+        $karyawan->facePoint = '[1,2,3,4,5]';
         $karyawan->createdAt = time();
         $this->karyawanRepository->save($karyawan);
 
@@ -267,29 +278,6 @@ class KaryawanControllerTest extends TestCase
         $_POST['password'] = '4377';
 
         $this->karyawanController->login();
-
-        self::assertEquals(200, http_response_code());
-    }
-
-    public function testUpdateFacePointSuccess()
-    {
-        $karyawan = new Karyawan();
-        $karyawan->nik = '2200000001';
-        $karyawan->nama = 'Ridwan Hidayat';
-        $karyawan->tanggalLahir = '1993-04-07';
-        $karyawan->jenisKelamin = 'L';
-        $karyawan->tempatLahir = 'Sumedang';
-        $karyawan->noHp = '083141418173';
-        $karyawan->alamat = 'Jl inhofftank';
-        $karyawan->email = 'ridwan.nurulhidayat@gmail.com';
-        $karyawan->divisi = 'IT';
-        $karyawan->jabatan = 'Programmer';
-        $karyawan->createdAt = time();
-        $this->karyawanRepository->save($karyawan);
-
-        $_POST['nik'] = '2200000001';
-        $_POST['facePoint'] = '[0,0,0]';
-        $this->karyawanController->updateFacePoint();
 
         self::assertEquals(200, http_response_code());
     }

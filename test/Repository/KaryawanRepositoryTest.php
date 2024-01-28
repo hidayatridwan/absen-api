@@ -35,6 +35,7 @@ class KaryawanRepositoryTest extends TestCase
         $karyawan->email = 'ridwan.nurulhidayat@gmail.com';
         $karyawan->divisi = 'IT';
         $karyawan->jabatan = 'Programmer';
+        $karyawan->facePoint = '[1,2,3,4,5]';
         $this->karyawanRepository->save($karyawan);
 
         return $karyawan;
@@ -80,6 +81,7 @@ class KaryawanRepositoryTest extends TestCase
         $karyawan->email = 'ridwan.nurulhidayat@gmail.com';
         $karyawan->divisi = 'IT';
         $karyawan->jabatan = 'Programmer';
+        $karyawan->facePoint = '[1,2,3,4,5]';
         $this->karyawanRepository->update($karyawan);
 
         $result = $this->karyawanRepository->findByNIK($karyawan->nik);
@@ -105,19 +107,6 @@ class KaryawanRepositoryTest extends TestCase
         $karyawan->password = password_hash('4377', PASSWORD_BCRYPT);
         $karyawan->updatedAt = time();
         $response = $this->karyawanRepository->updatePassword($karyawan);
-
-        self::assertEquals(1, $response);
-    }
-
-    public function testUpdateFacePointSuccess()
-    {
-        $this->saveKaryawan();
-
-        $karyawan = new Karyawan();
-        $karyawan->nik = '2200000001';
-        $karyawan->facePoint = '[-000]';
-        $karyawan->updatedAt = time();
-        $response = $this->karyawanRepository->updateFacePoint($karyawan);
 
         self::assertEquals(1, $response);
     }

@@ -22,7 +22,7 @@ class AbsenServiceTest extends TestCase
     {
         $connection = Database::getConnection();
         $this->absenRepository = new AbsenRepository($connection);
-        $this->karyawanRepository=new KaryawanRepository($connection);
+        $this->karyawanRepository = new KaryawanRepository($connection);
         $this->absenService = new AbsenService($this->absenRepository);
 
         $this->absenRepository->deleteAll();
@@ -42,6 +42,7 @@ class AbsenServiceTest extends TestCase
         $karyawan->email = 'ridwan.nurulhidayat@gmail.com';
         $karyawan->divisi = 'IT';
         $karyawan->jabatan = 'Programmer';
+        $karyawan->facePoint = '[1,2,3,4,5]';
         $karyawan->createdAt = time();
         $this->karyawanRepository->save($karyawan);
 
@@ -80,7 +81,8 @@ class AbsenServiceTest extends TestCase
 
         $this->saveAbsen();
 
-        $result = $this->absenService->findAll();
+        $period = date('Y-m-d');
+        $result = $this->absenService->findAll($period);
 
         self::assertCount(1, $result);
     }
@@ -91,7 +93,8 @@ class AbsenServiceTest extends TestCase
 
         $this->saveAbsen();
 
-        $result = $this->absenService->findByNIK('2200000001');
+        $period = date('Y-m-d');
+        $result = $this->absenService->findByNIK('2200000001', $period);
 
         self::assertCount(1, $result);
     }

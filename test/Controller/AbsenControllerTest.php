@@ -41,6 +41,7 @@ class AbsenControllerTest extends TestCase
         $karyawan->email = 'ridwan.nurulhidayat@gmail.com';
         $karyawan->divisi = 'IT';
         $karyawan->jabatan = 'Programmer';
+        $karyawan->facePoint = '[1,2,3,4,5]';
         $karyawan->createdAt = time();
         $this->karyawanRepository->save($karyawan);
     }
@@ -72,20 +73,13 @@ class AbsenControllerTest extends TestCase
 
         $absen = new Absen();
         $absen->nik = '2200000001';
-        $absen->jam_absen = time();
+        $absen->jamDatang = time();
         $this->absenRepository->save($absen);
 
         $this->absenController->findByNIK('2200000001');
 
         self::assertEquals(200, http_response_code());
     }
-
-//    public function testFindByNIKNotFound()
-//    {
-//        $this->absenController->findByNIK('NotFound');
-//
-//        self::assertEquals(404, http_response_code());
-//    }
 
     public function testFindAll()
     {
@@ -95,6 +89,7 @@ class AbsenControllerTest extends TestCase
         $absen->nik = '2200000001';
         $this->absenRepository->save($absen);
 
+        $_GET['period'] = date('Y-m-d');
         $this->absenController->findAll();
 
         self::assertEquals(200, http_response_code());

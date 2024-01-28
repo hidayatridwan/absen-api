@@ -22,9 +22,9 @@ class KaryawanService
     {
         if (!isset($request->nik) || !isset($request->nama)) {
             throw new ValidationException('Invalid parameters');
-        } else if ($request->nik == null || trim($request->nik) == '') {
+        } elseif ($request->nik == null || trim($request->nik) == '') {
             throw new ValidationException('NIK do not blank');
-        } else if ($request->nama == null || trim($request->nama) == '') {
+        } elseif ($request->nama == null || trim($request->nama) == '') {
             throw new ValidationException('Nama do not blank');
         }
     }
@@ -33,9 +33,9 @@ class KaryawanService
     {
         if (!isset($request->nik) || !isset($request->password)) {
             throw new ValidationException('Invalid parameters');
-        } else if ($request->nik == null || trim($request->nik) == '') {
+        } elseif ($request->nik == null || trim($request->nik) == '') {
             throw new ValidationException('NIK do not blank');
-        } else if ($request->password == null || trim($request->password) == '') {
+        } elseif ($request->password == null || trim($request->password) == '') {
             throw new ValidationException('Password do not blank');
         }
     }
@@ -152,14 +152,5 @@ class KaryawanService
             Database::rollBackTransaction();
             throw new ValidationException('Invalid username or password');
         }
-    }
-
-    public function updateFacePoint(KaryawanRequest $request): int
-    {
-        $karyawan = new Karyawan();
-        $karyawan->nik = $request->nik;
-        $karyawan->facePoint = $request->facePoint;
-
-        return $this->karyawanRepository->updateFacePoint($karyawan);
     }
 }

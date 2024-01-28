@@ -15,10 +15,6 @@ use RidwanHidayat\Absen\API\Controller\KaryawanController;
 use RidwanHidayat\Absen\API\Controller\AbsenController;
 use RidwanHidayat\Absen\API\Middleware\AuthMiddleware;
 use RidwanHidayat\Absen\API\Controller\KordinatController;
-use Dotenv\Dotenv;
-
-$dotenv = Dotenv::createImmutable(__DIR__ . '/../');
-$dotenv->load();
 
 Database::getConnection('prod');
 

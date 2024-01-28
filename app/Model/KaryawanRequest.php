@@ -17,4 +17,6 @@ class KaryawanRequest
     public ?string $password = null;
     public ?string $oldPassword = null;
     public ?string $facePoint = null;
+    public ?int $createdAt = null;
+    public ?int $updatedAt = null;
 }

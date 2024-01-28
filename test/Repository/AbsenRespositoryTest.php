@@ -36,6 +36,7 @@ class AbsenRespositoryTest extends TestCase
         $karyawan->email = 'ridwan.nurulhidayat@gmail.com';
         $karyawan->divisi = 'IT';
         $karyawan->jabatan = 'Programmer';
+        $karyawan->facePoint = '[1,2,3,4,5]';
         $karyawan->createdAt = time();
         $this->karyawanRepository->save($karyawan);
     }
@@ -44,7 +45,6 @@ class AbsenRespositoryTest extends TestCase
     {
         $absen = new Absen();
         $absen->nik = '2200000001';
-        $absen->jam_absen = time();
         $this->absenRepository->save($absen);
 
         return $absen;
@@ -56,7 +56,8 @@ class AbsenRespositoryTest extends TestCase
 
         $this->saveAbsen();
 
-        $result = $this->absenRepository->findAll();
+        $period = date('Y-m-d');
+        $result = $this->absenRepository->findAll($period);
         self::assertCount(1, $result);
     }
 
@@ -66,7 +67,8 @@ class AbsenRespositoryTest extends TestCase
 
         $absen = $this->saveAbsen();
 
-        $result = $this->absenRepository->findByNIK($absen->nik);
+        $period = date('Y-m-d');
+        $result = $this->absenRepository->findByNIK($absen->nik, $period);
 
         self::assertEquals($absen->nik, $result[0]->nik);
         self::assertCount(1, $result);

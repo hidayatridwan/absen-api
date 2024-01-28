@@ -9,7 +9,6 @@ use RidwanHidayat\Absen\API\Exception\ValidationException;
 use RidwanHidayat\Absen\API\Model\KaryawanRequest;
 use RidwanHidayat\Absen\API\Repository\AbsenRepository;
 use RidwanHidayat\Absen\API\Repository\KaryawanRepository;
-use function PHPUnit\Framework\assertEquals;
 
 class KaryawanServiceTest extends TestCase
 {
@@ -42,6 +41,7 @@ class KaryawanServiceTest extends TestCase
         $karyawan->email = 'ridwan.nurulhidayat@gmail.com';
         $karyawan->divisi = 'IT';
         $karyawan->jabatan = 'Programmer';
+        $karyawan->facePoint = '[1,2,3,4,5]';
         $karyawan->createdAt = time();
         $this->karyawanRepository->save($karyawan);
 
@@ -61,6 +61,7 @@ class KaryawanServiceTest extends TestCase
         $request->email = 'ridwan.nurulhidayat@gmail.com';
         $request->divisi = 'IT';
         $request->jabatan = 'Programmer';
+        $request->facePoint = '[1,2,3,4,5]';
         $request->createdAt = time();
         $response = $this->karyawanService->save($request);
 
@@ -162,6 +163,7 @@ class KaryawanServiceTest extends TestCase
 
         $request = new KaryawanRequest();
         $request->nik = '2200000001';
+        $request->oldPassword = '1993-04-07';
         $request->password = password_hash('4377', PASSWORD_BCRYPT);
         $request->updatedAt = time();
 
@@ -176,6 +178,7 @@ class KaryawanServiceTest extends TestCase
 
         $request = new KaryawanRequest();
         $request->nik = '2200000001';
+        $request->oldPassword = '1993-04-07';
         $request->password = '4377';
         $request->updatedAt = time();
         $this->karyawanService->updatePassword($request);
@@ -189,19 +192,5 @@ class KaryawanServiceTest extends TestCase
         self::assertEquals($request2->nik, $response->karyawan->nik);
         self::assertNotEquals($request2->password, $response->karyawan->password);
         self::assertTrue(password_verify($request2->password, $response->karyawan->password));
-    }
-
-    public function testUpdateFacePointSuccess()
-    {
-        $this->saveKaryawan();
-
-        $request = new KaryawanRequest();
-        $request->nik = '2200000001';
-        $request->facePoint = '[-000]';
-        $request->updatedAt = time();
-
-        $response = $this->karyawanService->updateFacePoint($request);
-
-        self::assertEquals(1, $response);
     }
 }

@@ -180,28 +180,4 @@ class KaryawanController
 
         echo json_encode($response);
     }
-
-    public function updateFacePoint(): void
-    {
-        Helper::parseToPost();
-
-        $request = new KaryawanRequest();
-        $request->nik = $_POST['nik'];
-        $request->facePoint = $_POST['facePoint'];
-
-        try {
-            $this->karyawanService->updateFacePoint($request);
-            $response = [
-                'message' => 'Successfully updated'
-            ];
-            http_response_code(200);
-        } catch (Exception $exception) {
-            $response = [
-                'error' => $exception->getMessage()
-            ];
-            http_response_code(400);
-        }
-
-        echo json_encode($response);
-    }
 }

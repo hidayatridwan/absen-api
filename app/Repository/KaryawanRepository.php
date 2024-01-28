@@ -140,6 +140,7 @@ class KaryawanRepository
             `email` = ?,
             `divisi` = ?,
             `jabatan` = ?,
+            `face_point` = ?,
             `updated_at` = unix_timestamp()
             WHERE `nik` = ?;"
         );
@@ -174,23 +175,6 @@ class KaryawanRepository
 
         $statement->execute([
             $karyawan->password,
-            $karyawan->nik
-        ]);
-
-        return $statement->rowCount();
-    }
-
-    public function updateFacePoint(Karyawan $karyawan): int
-    {
-        $statement = $this->connection->prepare("UPDATE `m_karyawan`
-            SET `face_point` = ?,
-            `password` = ?,
-            `updated_at` = unix_timestamp()
-            WHERE `nik` = ?;
-        ");
-
-        $statement->execute([
-            $karyawan->facePoint,
             $karyawan->nik
         ]);
 

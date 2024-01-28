@@ -22,7 +22,7 @@ class AbsenService
     {
         if (!isset($request->nik)) {
             throw new ValidationException('Wrong parameters');
-        } else if ($request->nik == null or trim($request->nik) == '') {
+        } elseif ($request->nik == null || trim($request->nik) == '') {
             throw new ValidationException('NIK do not blank');
         }
     }
